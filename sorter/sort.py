@@ -196,8 +196,8 @@ def main():
     logging.basicConfig(level=logging.DEBUG, format="%(threadName)s %(message)s")
     
     try:
-        # root_dir = Path(sys.argv[1])
-        root_dir = Path("C:/Users/Admin/Desktop/test_folder")
+        root_dir = Path(sys.argv[1])
+        # root_dir = Path("C:/Users/Admin/Desktop/test_folder")
     except IndexError:
         print(f"You mast enter parameter 'path to folder'. Command example: python {sys.argv[0]} [pathToFolder]")
         return False
