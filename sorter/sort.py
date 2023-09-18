@@ -1,5 +1,5 @@
 from threading import Thread, RLock
-import concurrent.futures
+from concurrent.futures import ThreadPoolExecutor
 from time import time
 import logging
 import sys
@@ -144,7 +144,7 @@ def delete_empty_folders(root_dir: Path) -> None:
         if child.is_dir():
             child_list.append(child)
     
-    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+    with ThreadPoolExecutor(max_workers=2) as executor:
         executor.map(delete_empty_folders_recursion, child_list)
 
 
@@ -196,8 +196,7 @@ def main():
     logging.basicConfig(level=logging.DEBUG, format="%(threadName)s %(message)s")
     
     try:
-        root_dir = Path(sys.argv[1])
-        # root_dir = Path("C:/Users/Admin/Desktop/test_folder")
+        root_dir = Path(sys.argv[1]) # for testing C:/Users/Admin/Desktop/test_folder
     except IndexError:
         print(f"You mast enter parameter 'path to folder'. Command example: python {sys.argv[0]} [pathToFolder]")
         return False
@@ -207,6 +206,7 @@ def main():
 
     # enable/disable "execution_time" test mode
     if len(sys.argv) > 2 and sys.argv[2] == "-t":
+        global TEST_MODE
         TEST_MODE = True
     
     process_files(root_dir)
